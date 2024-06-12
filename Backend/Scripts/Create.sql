@@ -6,7 +6,7 @@ CREATE DATABASE railway;
 
 -- Crear la tabla Usuario
 CREATE TABLE Usuario (
-    ID SERIAL PRIMARY KEY,
+    ID TEXT PRIMARY KEY,
     Nombre TEXT NOT NULL,
     Email TEXT NOT NULL,
     Password TEXT NOT NULL,
@@ -15,19 +15,19 @@ CREATE TABLE Usuario (
 
 -- Crear la tabla Mascota
 CREATE TABLE Mascota (
-    ID SERIAL PRIMARY KEY,
+    ID TEXT PRIMARY KEY,
     Nombre TEXT NOT NULL,
     Raza TEXT NOT NULL,
     Especie TEXT NOT NULL,
     Edad INTEGER NOT NULL,
     Observaciones TEXT,
-    ID_Dueno INTEGER NOT NULL,
+    ID_Dueno TEXT NOT NULL,
     FOREIGN KEY (ID_Dueno) REFERENCES Usuario(ID)
 );
 
 -- Crear la tabla Producto
 CREATE TABLE Producto (
-    ID SERIAL PRIMARY KEY,
+    ID TEXT PRIMARY KEY,
     Nombre TEXT NOT NULL,
     Precio INTEGER NOT NULL,
     Descripcion TEXT,
@@ -36,9 +36,9 @@ CREATE TABLE Producto (
 
 -- Crear la tabla Visitas
 CREATE TABLE Visitas (
-    ID SERIAL PRIMARY KEY,
+    ID TEXT PRIMARY KEY,
     Fecha DATE NOT NULL,
-    ID_Mascota INTEGER NOT NULL,
+    ID_Mascota TEXT NOT NULL,
     Observaciones TEXT,
     NombreMascota TEXT NOT NULL,
     MotivoVisita TEXT NOT NULL,
@@ -47,8 +47,8 @@ CREATE TABLE Visitas (
 
 -- Crear la tabla Visitas_Productos
 CREATE TABLE Visitas_Productos (
-    IDVisitas INTEGER NOT NULL,
-    IDProducto INTEGER NOT NULL,
+    IDVisitas TEXT NOT NULL,
+    IDProducto TEXT NOT NULL,
     Nombre TEXT NOT NULL,
     Cantidad INTEGER NOT NULL,
     Total INTEGER NOT NULL,
