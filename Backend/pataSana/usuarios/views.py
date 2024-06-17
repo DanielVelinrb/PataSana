@@ -35,7 +35,7 @@ def crear_usuario(request):
                     INSERT INTO Usuario (ID, Nombre, Email, Password, Rol)
                     VALUES (%s, %s, %s, %s, %s)
                     """,
-                    (usuario_id, nombre, email, password, rol,)
+                    (usuario_id, nombre, email, password, "usuario",)
                 )
 
             return JsonResponse({'message': 'Usuario creado exitosamente'}, status=200)
