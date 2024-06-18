@@ -1,6 +1,1 @@
 Django
-djangorestframework
-psycopg2
-whitenoise
-pytz
-PyJWT
