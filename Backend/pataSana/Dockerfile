@@ -18,7 +18,7 @@ COPY . .
 RUN python manage.py collectstatic --noinput
 
 # Expone el puerto en el que Django correrá (opcional, no necesario si no se publica el puerto)
-# EXPOSE 8000
+EXPOSE 8000
 
 # Comando para correr la aplicación Django
 CMD ["gunicorn", "--workers", "3", "--bind", "0.0.0.0:8000", "pataSana.wsgi:application"]
