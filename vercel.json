@@ -3,7 +3,7 @@
     "version": 2,
     "builds": [
       {
-        "src": "Backend/pataSana/wsgi.py",
+        "src": "Backend/pataSana/pataSana/wsgi.py",
         "use": "@vercel/python",
         "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
       },
@@ -11,18 +11,18 @@
         "src": "build_files.sh",
         "use": "@vercel/static-build",
         "config": {
-          "distDir": "staticfiles"
+          "distDir": "Backend/pataSana/staticfiles"
         }
       }
     ],
     "routes": [
       {
         "src": "/static/(.*)",
-        "dest": "/static/$1"
+        "dest": "Backend/pataSana/staticfiles/$1"
       },
       {
         "src": "/(.*)",
-        "dest": "Backend/pataSana/wsgi.py"
+        "dest": "Backend/pataSana/pataSana/wsgi.py"
       }
     ]
   }
