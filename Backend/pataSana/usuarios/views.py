@@ -8,6 +8,8 @@ from .utils import existUser, validateUser
 from datetime import datetime, timedelta
 
 def home(request):
+    return render(request, 'index.html')
+    
     return HttpResponse("¡Hola, mundo!")
 
 @csrf_exempt
