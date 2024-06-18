@@ -53,7 +53,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"rigoberta@example.com\",\r\n    \"nombre\": \"pancho\",\r\n    \"raza\": \"golden\",\r\n    \"especie\": \"perro\",\r\n    \"edad\" : 3,\r\n    \"observaciones\": \"suavecito\",\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYzg4MTIzNDQtMGRlNy00Nzg3LWI4YWItNDEyOGFhZDYzM2I4IiwidXNlcl9yb2wiOiJhZG1pbiJ9.5SbtICwZlr-V6BMpAjNMkYLWZ1zSZUas_804RA-F92I\"\r\n}",
+							"raw": "{\r\n    \"email\": \"rigoberta@example.com\",\r\n    \"nombre\": \"pancho 2\",\r\n    \"raza\": \"golden\",\r\n    \"especie\": \"perro\",\r\n    \"edad\" : 3,\r\n    \"observaciones\": \"suavecito\",\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYzg4MTIzNDQtMGRlNy00Nzg3LWI4YWItNDEyOGFhZDYzM2I4IiwidXNlcl9yb2wiOiJhZG1pbiJ9.5SbtICwZlr-V6BMpAjNMkYLWZ1zSZUas_804RA-F92I\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -61,15 +61,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/mascotas/registrar",
+							"raw": "http://ec2-18-117-255-119.us-east-2.compute.amazonaws.com/mascotas/registrar",
 							"protocol": "http",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"ec2-18-117-255-119",
+								"us-east-2",
+								"compute",
+								"amazonaws",
+								"com"
 							],
-							"port": "8000",
 							"path": [
 								"mascotas",
 								"registrar"
@@ -105,6 +105,148 @@
 							"path": [
 								"mascotas",
 								"borrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Datos Copy",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : \"c0f6e03e-34b3-4da9-a775-db4b95e88fac\",\r\n    \"nombre\": \"Jackson\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/mascotas/actualizar",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"mascotas",
+								"actualizar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Mascotas por Usuario",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNGM4MWRkZDYtMTU4NC00NDI1LTk3NWItNDg4OGZiNjdiNzc1IiwidXNlcl9yb2wiOiJ1c3VhcmlvIn0.XnlMCQCqM-TijUNOgqN_JO7qj7Z3oe57AT8DaO6a2AM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://ec2-18-117-255-119.us-east-2.compute.amazonaws.com/mascotas/listar",
+							"protocol": "http",
+							"host": [
+								"ec2-18-117-255-119",
+								"us-east-2",
+								"compute",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"mascotas",
+								"listar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Info mascota",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNGM4MWRkZDYtMTU4NC00NDI1LTk3NWItNDg4OGZiNjdiNzc1IiwidXNlcl9yb2wiOiJ1c3VhcmlvIn0.XnlMCQCqM-TijUNOgqN_JO7qj7Z3oe57AT8DaO6a2AM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/mascotas/info?nombre=pancho 2",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"mascotas",
+								"info"
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": "pancho 2"
+								}
 							]
 						}
 					},
@@ -154,7 +296,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"dios@example.com\",\r\n    \"password\": \"dios\"\r\n}",
+							"raw": "{\r\n    \"email\": \"rigoberta@example.com\",\r\n    \"password\": \"pan\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -162,15 +304,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/login",
+							"raw": "http://ec2-18-117-255-119.us-east-2.compute.amazonaws.com/login",
 							"protocol": "http",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"ec2-18-117-255-119",
+								"us-east-2",
+								"compute",
+								"amazonaws",
+								"com"
 							],
-							"port": "8000",
 							"path": [
 								"login"
 							]
@@ -204,6 +346,139 @@
 							"port": "8000",
 							"path": [
 								"change_password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Datos",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : \"ba267496-0c07-4dc4-8573-abf9018dfc4e\",\r\n    \"email\": \"rigoberta2@example.com\",\r\n    \"nombre\": \"Rigoberta Menchu\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/actualizar_datos",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"actualizar_datos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Usuarios",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYzg4MTIzNDQtMGRlNy00Nzg3LWI4YWItNDEyOGFhZDYzM2I4IiwidXNlcl9yb2wiOiJhZG1pbiJ9.5SbtICwZlr-V6BMpAjNMkYLWZ1zSZUas_804RA-F92I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://ec2-18-117-255-119.us-east-2.compute.amazonaws.com/get_users",
+							"protocol": "http",
+							"host": [
+								"ec2-18-117-255-119",
+								"us-east-2",
+								"compute",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"get_users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Info Usuario",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNGM4MWRkZDYtMTU4NC00NDI1LTk3NWItNDg4OGZiNjdiNzc1IiwidXNlcl9yb2wiOiJ1c3VhcmlvIn0.XnlMCQCqM-TijUNOgqN_JO7qj7Z3oe57AT8DaO6a2AM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/get_info_user",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"get_info_user"
 							]
 						}
 					},
