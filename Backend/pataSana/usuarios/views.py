@@ -133,3 +133,64 @@ def obtener_usuarios(request):
             return JsonResponse({'error': 'ERROR AL OBTENER LOS USUARIOS'}, status=500)
     else:
         return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+
+@csrf_exempt
+def obtener_info_usuario(request):
+    
+    if request.method == 'GET':
+        token = request.headers.get('Authorization')
+        
+        if not token:
+            return JsonResponse({'error': 'ERROR. TOKEN DE IDENTIFICACION REQUERIDO'}, status=400)
+
+        try:
+            token = token.split(' ')[1]
+            payload = jwt.decode(token, 'pan', algorithms=['HS256'])
+            user_id = payload['user_id']
+
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    """
+                    SELECT * FROM USUARIO where id = %s
+                    """,
+                    (user_id, )                    
+                )
+
+                usuario = cursor.fetchone()
+
+                if usuario is None:
+                    return JsonResponse({'error': "ERROR. EL USUARIO NO EXiSTE"}, status=200)
+
+            return JsonResponse({'usuario': usuario}, status=200)
+        except Exception as e:
+            return JsonResponse({'error': 'ERROR AL OBTENER LA INFORMACION DEL USUARIO'}, status=500)
+    else:
+        return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+
+
+@csrf_exempt
+def actualizar(request):
+
+    if request.method == 'PATCH':
+        data = json.loads(request.body)
+        id_usuario = data.get('id')
+        email = data.get('email')
+        nombre = data.get('nombre')
+
+        try:
+
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    """
+                    UPDATE Usuario SET email = %s, nombre = %s where id = %s
+                    """,
+                    (email, nombre, id_usuario, )
+                )
+
+            return JsonResponse({'message': 'DATOS DEL USUARIO ACTUALIZADOS CON EXITO'}, status=200)
+        except Exception as e:
+            return JsonResponse({'error': 'ERROR AL ACTUALIZAR LA INFORMACION'}, status=500)
+    else:
+        return JsonResponse({'error': 'Método no permitido'}, status=405)
