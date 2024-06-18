@@ -69,7 +69,7 @@ def iniciar_sesion(request):
 
 @csrf_exempt
 def cambiar_contrasenia(request):
-    print(request.method)
+
     if request.method == 'PATCH':
         data = json.loads(request.body)
         password = data.get('password')
@@ -94,5 +94,42 @@ def cambiar_contrasenia(request):
             return JsonResponse({'message': 'CONTRASEÑA ACTUALIZADA CON ÉXITO'}, status=200)
         except Exception as e:
             return JsonResponse({'error': 'ERROR AL INTENTAR CAMBIAR LA CONTRASEÑA'}, status=500)
+    else:
+        return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+
+@csrf_exempt
+def obtener_usuarios(request):
+    
+    if request.method == 'GET':
+        token = request.headers.get('Authorization')
+        
+        if not token:
+            return JsonResponse({'error': 'ERROR. TOKEN DE IDENTIFICACION REQUERIDO'}, status=400)
+
+        try:
+            token = token.split(' ')[1]
+            payload = jwt.decode(token, 'pan', algorithms=['HS256'])
+            user_rol = payload['user_rol']
+
+            if(user_rol != "admin"):
+                return JsonResponse({'error': 'USUARIO NO AUTORIZADO. SE REQUIEREN PERMISOS DE ADMINISTRADOR.'}, status=400)
+
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    """
+                    SELECT USUARIO.*, COUNT(MASCOTA.ID) AS mascotasNum 
+                    FROM USUARIO LEFT JOIN MASCOTA 
+                    ON USUARIO.ID = MASCOTA.id_dueno
+                    where USUARIO.rol = 'usuario'
+                    GROUP BY USUARIO.ID
+                    """                    
+                )
+
+                usuarios = cursor.fetchall()
+
+            return JsonResponse({'usuarios': usuarios}, status=200)
+        except Exception as e:
+            return JsonResponse({'error': 'ERROR AL OBTENER LOS USUARIOS'}, status=500)
     else:
         return JsonResponse({'error': 'Método no permitido'}, status=405)

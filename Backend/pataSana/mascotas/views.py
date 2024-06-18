@@ -97,3 +97,38 @@ def borrar_registro(request):
             JsonResponse({'error': 'ERROR AL TRATAR DE ELIMINAR EL REGISTRO DE LA MASCOTA.'}, status=500)
     else:
         return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+
+@csrf_exempt
+def obtener_mascotas(request):
+    
+    if request.method == 'GET':
+        token = request.headers.get('Authorization')
+        
+        if not token:
+            return JsonResponse({'error': 'ERROR. TOKEN DE IDENTIFICACION REQUERIDO'}, status=400)
+
+        try:
+            token = token.split(' ')[1]
+            payload = jwt.decode(token, 'pan', algorithms=['HS256'])
+            user_rol = payload['user_rol']
+            user_id = payload['user_id']
+
+            if(user_rol != "usuario"):
+                return JsonResponse({'error': 'ERROR. ESTE TIPO DE USUARIO NO PUEDE REALIZAR ESTA ACCION'}, status=400)
+            print(user_id)
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    """
+                    SELECT * FROM MASCOTA where id_dueno = %s
+                    """ ,
+                    (user_id, )               
+                )
+
+                mascotas = cursor.fetchall()
+
+            return JsonResponse({'mascotas': mascotas}, status=200)
+        except Exception as e:
+            return JsonResponse({'error': 'ERROR AL OBTENER LAS MASCOTAS'}, status=500)
+    else:
+        return JsonResponse({'error': 'Método no permitido'}, status=405)
