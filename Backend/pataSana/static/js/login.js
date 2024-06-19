@@ -32,7 +32,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
                 if (userData.usuario[4] === 'admin') {
                     window.location.href = '/dashboard_admin';
                 } else if (userData.usuario[4] === 'usuario') {
-                    //window.location.href = 'cliente.html';
+                    window.location.href = '/dashboard_admin';
                 }
                 
             })

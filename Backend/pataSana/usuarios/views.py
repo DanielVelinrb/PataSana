@@ -12,8 +12,13 @@ def home(request):
 
 
 def ir_index(request):
-    return render(request, 'usuarios/index.html')
+    return render(request, 'mascotas/lista_mascotas.html')
 
+def registrar_usuario(request):
+    return render(request, 'usuarios/register.html')
+
+def recuperar_contrasenia(request):
+    return render(request, 'usuarios/password.html')
 @csrf_exempt
 def crear_usuario(request):
 

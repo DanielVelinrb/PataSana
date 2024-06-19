@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listado de Mascotas</title>
+    {% load static %}
+    <link href="{% static 'css/styles.css'%}" rel="stylesheet" />
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -123,9 +125,10 @@
         const apiUrl = 'http://127.0.0.1:8000/mascotas/listar';
         //Usuario Normal
         //const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNGM4MWRkZDYtMTU4NC00NDI1LTk3NWItNDg4OGZiNjdiNzc1IiwidXNlcl9yb2wiOiJ1c3VhcmlvIn0.XnlMCQCqM-TijUNOgqN_JO7qj7Z3oe57AT8DaO6a2AM'; // Reemplaza 'tu_token_aqui' con tu token válido
-        
+        const authToken = localStorage.getItem('token');
+        console.log(authToken);
         //Usuario Admin
-        const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYzg4MTIzNDQtMGRlNy00Nzg3LWI4YWItNDEyOGFhZDYzM2I4IiwidXNlcl9yb2wiOiJhZG1pbiJ9.5SbtICwZlr-V6BMpAjNMkYLWZ1zSZUas_804RA-F92I';
+        //const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYzg4MTIzNDQtMGRlNy00Nzg3LWI4YWItNDEyOGFhZDYzM2I4IiwidXNlcl9yb2wiOiJhZG1pbiJ9.5SbtICwZlr-V6BMpAjNMkYLWZ1zSZUas_804RA-F92I';
         // Función para obtener y mostrar los usuarios
         async function getPets() {
             try {

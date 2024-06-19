@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +9,6 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Login</title>
-    {% load static %}
     <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
@@ -19,7 +20,9 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-5">
                             <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                <div class="card-header"><h3 class="text-center font-weight-light my-4">Inicio de Sesión</h3></div>
+                                <div class="card-header">
+                                    <h3 class="text-center font-weight-light my-4">Inicio de Sesión</h3>
+                                </div>
                                 <div class="card-body">
                                     <form id="loginForm">
                                         <div class="form-floating mb-3">
@@ -35,13 +38,13 @@
                                             <label class="form-check-label" for="inputRememberPassword">Recordar mi contraseña</label>
                                         </div>
                                         <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                            <a class="small" href="password.html">Recupera tu contraseña</a>
+                                            <a class="small" href="{% url 'restablecer_contra' %}">Recupera tu contraseña</a>
                                             <button type="submit" class="btn btn-primary">Iniciar sesión</button>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="card-footer text-center py-3">
-                                    <div class="small"><a href="register.html">Regístrate</a></div>
+                                    <div class="small"><a href="{% url 'registrarme' %}">Regístrate</a></div>
                                 </div>
                             </div>
                         </div>
