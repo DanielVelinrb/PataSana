@@ -55,7 +55,8 @@ ROOT_URLCONF = 'pataSana.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.dirname(os.path.dirname(BASE_DIR)) + '\Frontend'],
+
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
