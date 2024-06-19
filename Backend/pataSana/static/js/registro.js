@@ -5,7 +5,7 @@ document.getElementById('registrationForm').addEventListener('submit', function(
     const apellido = document.getElementById('inputLastName').value;
     const email = document.getElementById('inputEmail').value;
     const password = document.getElementById('inputPassword').value;
-    const rol = document.getElementById('inputRole').value;
+    const rol = 'usuario'; // Siempre enviar "usuario" como rol
 
     const nombreCompleto = `${nombre} ${apellido}`;
 
