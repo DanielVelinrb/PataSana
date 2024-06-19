@@ -4,7 +4,7 @@ from django.shortcuts import render
 #from django.contrib.auth import authenticate
 from django.db import connection
 import json, uuid, jwt, hashlib
-from .utils import existUser, validateUser
+from .utils import existUser, validateUser, correoValido
 from datetime import datetime, timedelta
 
 def home(request):
@@ -21,12 +21,19 @@ def crear_usuario(request):
         password = data.get('password')
         rol = data.get('rol')
 
+        if correoValido(email) is False:
+            return JsonResponse({'error': 'Correo inválido. Este correo no cumple con el formato adecuado'}, status=405)
+
         user_exists = existUser(email)
 
         if user_exists is not None:
             return JsonResponse({'error': 'Correo inválido. El usuario ya existe'}, status=405)
 
         usuario_id = uuid.uuid4()
+
+        if(len(password) <= 3):
+            return JsonResponse({'error': 'Contraseña debil. La contraseña debe poseer al menos 4 caracteres.'}, status=405)
+
         password = hashlib.sha256(password.encode('utf-8')).hexdigest()
 
         try:
@@ -80,6 +87,9 @@ def cambiar_contrasenia(request):
 
         if user_exists is None:
             return JsonResponse({'error': 'ERROR. CORREO NO VÁLIDO'}, status=405)
+
+        if(len(password) <= 3):
+            return JsonResponse({'error': 'Contraseña debil. La contraseña debe poseer al menos 4 caractéres.'}, status=405)
 
         password = hashlib.sha256(password.encode('utf-8')).hexdigest()
 
@@ -179,6 +189,12 @@ def actualizar(request):
         id_usuario = data.get('id')
         email = data.get('email')
         nombre = data.get('nombre')
+
+        if correoValido(email) is False:
+            return JsonResponse({'error': 'Correo inválido. Este correo no cumple con el formato adecuado.'}, status=405)
+
+        if nombre is None:
+            return JsonResponse({'error': 'ERROR. No se puede actualizar un nombre a un valor en blanco.'}, status=405)
 
         try:
 
