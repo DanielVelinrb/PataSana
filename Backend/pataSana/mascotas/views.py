@@ -118,17 +118,23 @@ def obtener_mascotas(request):
             user_rol = payload['user_rol']
             user_id = payload['user_id']
 
-            if(user_rol != "usuario"):
-                return JsonResponse({'error': 'ERROR. ESTE TIPO DE USUARIO NO PUEDE REALIZAR ESTA ACCION'}, status=400)
+            #if(user_rol != "usuario"):
+            #   return JsonResponse({'error': 'ERROR. ESTE TIPO DE USUARIO NO PUEDE REALIZAR ESTA ACCION'}, status=400)
 
             with connection.cursor() as cursor:
-                cursor.execute(
-                    """
-                    SELECT * FROM MASCOTA where id_dueno = %s
-                    """ ,
-                    (user_id, )               
-                )
-
+                if(user_rol == "usuario"):
+                    cursor.execute(
+                        """
+                        SELECT * FROM MASCOTA where id_dueno = %s
+                        """ ,
+                        (user_id, )               
+                    )
+                if(user_rol == "admin"):
+                    cursor.execute(
+                        """
+                        SELECT * FROM MASCOTA 
+                        """                
+                    )
                 mascotas = cursor.fetchall()
 
             return JsonResponse({'mascotas': mascotas}, status=200)
@@ -180,7 +186,7 @@ def obtener_info_mascota(request):
 
 @csrf_exempt
 def actualizar(request):
-
+    
     if request.method == 'PATCH':
         data = json.loads(request.body)
         id_mascota = data.get('id')

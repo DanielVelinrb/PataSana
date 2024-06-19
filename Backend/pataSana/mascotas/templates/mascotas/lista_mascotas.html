@@ -100,7 +100,7 @@
     <div id="updateModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>Actualizar Usuario</h2>
+            <h2>Actualizar Mascota</h2>
             <form id="updateForm">
                 <input type="hidden" id="updateId">
                 <label for="updateNombre">Nombre:</label>
@@ -121,8 +121,11 @@
     <script>
         // URL de la API y token de autenticación
         const apiUrl = 'http://127.0.0.1:8000/mascotas/listar';
-        const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNGM4MWRkZDYtMTU4NC00NDI1LTk3NWItNDg4OGZiNjdiNzc1IiwidXNlcl9yb2wiOiJ1c3VhcmlvIn0.XnlMCQCqM-TijUNOgqN_JO7qj7Z3oe57AT8DaO6a2AM'; // Reemplaza 'tu_token_aqui' con tu token válido
-
+        //Usuario Normal
+        //const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNGM4MWRkZDYtMTU4NC00NDI1LTk3NWItNDg4OGZiNjdiNzc1IiwidXNlcl9yb2wiOiJ1c3VhcmlvIn0.XnlMCQCqM-TijUNOgqN_JO7qj7Z3oe57AT8DaO6a2AM'; // Reemplaza 'tu_token_aqui' con tu token válido
+        
+        //Usuario Admin
+        const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYzg4MTIzNDQtMGRlNy00Nzg3LWI4YWItNDEyOGFhZDYzM2I4IiwidXNlcl9yb2wiOiJhZG1pbiJ9.5SbtICwZlr-V6BMpAjNMkYLWZ1zSZUas_804RA-F92I';
         // Función para obtener y mostrar los usuarios
         async function getPets() {
             try {
@@ -161,7 +164,7 @@
                 });
             } catch (error) {
                 console.error('Error:', error);
-                alert('Ocurrió un error al cargar los usuarios.');
+                alert('Ocurrió un error al cargar las mascotas.');
             }
         }
 
@@ -218,6 +221,7 @@
                 alert('Se requiere un correo electrónico para confirmar el nuevo registro.');
                 return;
             }
+            
 
             const nombre = document.getElementById('addNombre').value;
             const raza = document.getElementById('addRaza').value;
@@ -233,12 +237,13 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        duenio: confirmEmail, 
+                        email: confirmEmail, 
                         nombre: nombre,
                         raza: raza,
                         especie: especie,
                         edad: parseInt(edad),
                         observaciones: observaciones,
+                        //token de administrador
                         token: authToken
                     })
                 });
@@ -275,7 +280,7 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        duenio: confirmEmail,
+                        email: confirmEmail,
                         nombre: nombre,
                         token: authToken
                     })
@@ -328,7 +333,7 @@
                 getPets(); // Volver a cargar la lista de usuarios actualizada
             } catch (error) {
                 console.error('Error:', error);
-                alert('Ocurrió un error al actualizar los datos del usuario.');
+                alert('Ocurrió un error al actualizar los datos de la mascota.');
             }
         });
 
