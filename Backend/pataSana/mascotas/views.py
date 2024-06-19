@@ -185,17 +185,33 @@ def actualizar(request):
         data = json.loads(request.body)
         id_mascota = data.get('id')
         nombre = data.get('nombre')
+        raza = data.get('raza')
+        especie = data.get('especie')
+        edad = data.get('edad')
+        observaciones = data.get('observaciones')
+
+        if nombre is None or edad is None or especie is None or observaciones is None:
+            return JsonResponse({'error': 'LOS CAMPOS A ACTUALIZAR NO PUEDEN SER NULOS'}, status=405)
+
+        print("pollo")
+
+        if not edad.isdigit() or (edad.isdigit() and int(edad) < 0):
+            return JsonResponse({'error': 'LA EDAD INGRESADA DEBE SER UN NÚMERO ENTERO POSITIVO'}, status=405)
+        
+        print("pan")
 
         try:
 
             with connection.cursor() as cursor:
                 cursor.execute(
                     """
-                    UPDATE MASCOTA SET nombre = %s where id = %s
+                    UPDATE MASCOTA SET 
+                    nombre = %s, raza = %s, especie = %s, edad = %s, observaciones = %s
+                    where id = %s
                     """,
-                    (nombre, id_mascota, )
+                    (nombre, raza, especie, edad, observaciones, id_mascota, )
                 )
-
+            print("pato")
             return JsonResponse({'message': 'DATOS DE LA MASCOTA ACTUALIZADOS CON EXITO'}, status=200)
         except Exception as e:
             return JsonResponse({'error': 'ERROR AL ACTUALIZAR LA INFORMACION'}, status=500)
