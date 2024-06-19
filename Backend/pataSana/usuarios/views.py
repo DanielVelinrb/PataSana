@@ -8,9 +8,11 @@ from .utils import existUser, validateUser, correoValido
 from datetime import datetime, timedelta
 
 def home(request):
-    return render(request, 'usuarios/lista_usuarios.html')
-    return render(request, 'index.html')
+    return render(request, 'usuarios/login.html')
 
+
+def ir_index(request):
+    return render(request, 'usuarios/index.html')
 
 @csrf_exempt
 def crear_usuario(request):
@@ -212,3 +214,4 @@ def actualizar(request):
             return JsonResponse({'error': 'ERROR AL ACTUALIZAR LA INFORMACION'}, status=500)
     else:
         return JsonResponse({'error': 'Método no permitido'}, status=405)
+    
