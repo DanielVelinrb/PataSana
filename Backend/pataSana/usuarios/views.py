@@ -8,7 +8,7 @@ from .utils import existUser, validateUser
 from datetime import datetime, timedelta
 
 def home(request):
-    return render(request, 'login.html')
+    return render(request, 'index.html')
 
 
 @csrf_exempt
