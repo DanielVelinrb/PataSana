@@ -8,7 +8,7 @@ from .utils import existUser, validateUser, correoValido
 from datetime import datetime, timedelta
 
 def home(request):
-    return render(request, 'usuarios/index.html')
+    return render(request, 'usuarios/lista_usuarios.html')
     return render(request, 'index.html')
 
 

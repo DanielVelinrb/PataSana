@@ -6,6 +6,10 @@ import json, uuid, jwt, hashlib
 from datetime import datetime, timedelta
 from .utils import getUserID, mascotaExiste
 
+
+def home(request):
+    return render(request, 'mascotas/lista_mascotas.html')
+
 @csrf_exempt
 def registrar_mascota(request):
 

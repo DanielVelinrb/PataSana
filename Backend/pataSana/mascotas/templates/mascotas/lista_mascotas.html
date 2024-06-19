@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Mascotas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Listado de Mascotas</h1>
+    <table id="users-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Raza</th>
+                <th>Especie</th>
+                <th>Edad</th>
+                <th>Observaciones</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="users-table-body">
+        </tbody>
+    </table>
+
+    <!-- Botón para agregar una nueva mascota -->
+    <button onclick="openAddModal()">Agregar Mascota</button>
+     <!-- Modal para agregar nueva mascota -->
+     <div id="addModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddModal()">&times;</span>
+            <h2>Agregar Mascota</h2>
+            <form id="addForm">
+                <label for="addNombre">Nombre:</label>
+                <input type="text" id="addNombre" name="nombre" required><br><br>
+                <label for="addRaza">Raza:</label>
+                <input type="text" id="addRaza" name="raza" required><br><br>
+                <label for="addEspecie">Especie:</label>
+                <input type="text" id="addEspecie" name="especie" required><br><br>
+                <label for="addEdad">Edad:</label>
+                <input type="number" id="addEdad" name="edad" required><br><br>
+                <label for="addObservaciones">Observaciones:</label>
+                <input type="text" id="addObservaciones" name="observaciones" required><br><br>
+                <button type="submit">Agregar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="updateModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Actualizar Usuario</h2>
+            <form id="updateForm">
+                <input type="hidden" id="updateId">
+                <label for="updateNombre">Nombre:</label>
+                <input type="text" id="updateNombre" name="nombre" required><br><br>
+                <label for="updateRaza">Raza:</label>
+                <input type="text" id="updateRaza" name="raza" required><br><br>
+                <label for="updateEspecie">Especie:</label>
+                <input type="text" id="updateEspecie" name="Especie" required><br><br>
+                <label for="updateEdad">Edad:</label>
+                <input type="text" id="updateEdad" name="Edad" required><br><br>
+                <label for="updateObservaciones">Observaciones:</label>
+                <input type="text" id="updateObservaciones" name="Observaciones" required><br><br>
+                <button type="submit">Actualizar</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // URL de la API y token de autenticación
+        const apiUrl = 'http://127.0.0.1:8000/mascotas/listar';
+        const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNGM4MWRkZDYtMTU4NC00NDI1LTk3NWItNDg4OGZiNjdiNzc1IiwidXNlcl9yb2wiOiJ1c3VhcmlvIn0.XnlMCQCqM-TijUNOgqN_JO7qj7Z3oe57AT8DaO6a2AM'; // Reemplaza 'tu_token_aqui' con tu token válido
+
+        // Función para obtener y mostrar los usuarios
+        async function getPets() {
+            try {
+                const response = await fetch(apiUrl, {
+                    headers: {
+                        'Authorization': `Token ${authToken}`
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error('Error al obtener los datos');
+                }
+                const data = await response.json();
+                const users = data.mascotas;
+
+                // Obtener el cuerpo de la tabla
+                const tableBody = document.getElementById('users-table-body');
+                tableBody.innerHTML = ''; // Limpiar el contenido previo
+
+                // Iterar sobre los usuarios y crear filas
+                users.forEach(user => {
+                    const [id, nombre, raza, especie, edad, observaciones] = user;
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${id}</td>
+                        <td>${nombre}</td>
+                        <td>${raza}</td>
+                        <td>${especie}</td>
+                        <td>${edad}</td>
+                        <td>${observaciones}</td>
+                        <td>
+                            <button onclick="openModal('${id}', '${nombre}', '${raza}', '${especie}', '${edad}', '${observaciones}')">Actualizar</button>
+                            <button onclick="deletePet('${nombre}')">Eliminar</button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Ocurrió un error al cargar los usuarios.');
+            }
+        }
+
+        // Función para abrir el modal y cargar datos del usuario
+        function openModal(id, nombre, raza, especie, edad, observaciones) {
+            const modal = document.getElementById('updateModal');
+            modal.style.display = 'block';
+
+            // Rellenar los campos del formulario con los datos actuales del usuario
+            document.getElementById('updateId').value = id;
+            document.getElementById('updateNombre').value = nombre;
+            document.getElementById('updateRaza').value = raza;
+            document.getElementById('updateEspecie').value = especie;
+            document.getElementById('updateEdad').value = edad;
+            document.getElementById('updateObservaciones').value = observaciones;
+        }
+
+        // Función para cerrar el modal
+        const closeModal = () => {
+            const modal = document.getElementById('updateModal');
+            modal.style.display = 'none';
+        };
+
+    
+
+        // Evento para cerrar el modal al hacer clic en la 'x'
+        document.querySelector('.close').addEventListener('click', closeModal);
+
+        // Evento para cerrar el modal al hacer clic fuera del contenido del modal
+        window.onclick = function(event) {
+            const modal = document.getElementById('updateModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        };
+        
+        // Función para abrir el modal de agregar mascota
+        function openAddModal() {
+            const modal = document.getElementById('addModal');
+            modal.style.display = 'block';
+        }
+
+        // Función para cerrar el modal de agregar mascota
+        function closeAddModal() {
+            const modal = document.getElementById('addModal');
+            modal.style.display = 'none';
+        }
+        // Evento para enviar la solicitud de agregar mascota
+        document.getElementById('addForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const confirmEmail = prompt(`Por favor, ingresa tu correo electrónico`);
+            if (!confirmEmail) {
+                alert('Se requiere un correo electrónico para confirmar el nuevo registro.');
+                return;
+            }
+
+            const nombre = document.getElementById('addNombre').value;
+            const raza = document.getElementById('addRaza').value;
+            const especie = document.getElementById('addEspecie').value;
+            const edad = document.getElementById('addEdad').value;
+            const observaciones = document.getElementById('addObservaciones').value;
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/mascotas/registrar', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Token ${authToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        duenio: confirmEmail, 
+                        nombre: nombre,
+                        raza: raza,
+                        especie: especie,
+                        edad: parseInt(edad),
+                        observaciones: observaciones,
+                        token: authToken
+                    })
+                });
+                if (!response.ok) {
+                    throw new Error('Error al agregar la mascota');
+                }
+                const result = await response.json();
+                alert(result.message); // Mostrar mensaje de éxito
+                closeAddModal(); // Cerrar modal después de agregar la mascota
+                getPets(); // Volver a cargar la lista de mascotas actualizada
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Ocurrió un error al agregar la mascota.');
+            }
+        });
+
+        // Función para eliminar mascota
+        async function deletePet(nombre) {
+            const confirmEmail = prompt(`Por favor, ingresa el correo electrónico del dueño de ${nombre}:`);
+            if (!confirmEmail) {
+                alert('Se requiere un correo electrónico para confirmar la eliminación.');
+                return;
+            }
+
+            if (!confirm(`¿Seguro que quieres eliminar ${nombre}?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/mascotas/borrar', {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Token ${authToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        duenio: confirmEmail,
+                        nombre: nombre,
+                        token: authToken
+                    })
+                });
+                if (!response.ok) {
+                    throw new Error('Error al eliminar la mascota');
+                }
+                const result = await response.json();
+                alert(result.message); // Mostrar mensaje de éxito
+                getPets(); // Volver a cargar la lista de mascotas actualizada
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Ocurrió un error al eliminar la mascota.');
+            }
+        }
+
+        // Evento para enviar la actualización del usuario
+        document.getElementById('updateForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const id = document.getElementById('updateId').value;
+            const nombre = document.getElementById('updateNombre').value;
+            const raza = document.getElementById('updateRaza').value;
+            const especie = document.getElementById('updateEspecie').value;
+            const edad = document.getElementById('updateEdad').value;
+            const observaciones = document.getElementById('updateObservaciones').value;
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/mascotas/actualizar', {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `Token ${authToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: id,
+                        nombre: nombre,
+                        raza: raza,
+                        especie: especie,
+                        edad: edad,
+                        observaciones: observaciones
+                    })
+                });
+                if (!response.ok) {
+                    throw new Error('Error al actualizar los datos');
+                }
+                const result = await response.json();
+                alert(result.message); // Mostrar mensaje de éxito
+                closeModal(); // Cerrar modal después de la actualización
+                getPets(); // Volver a cargar la lista de usuarios actualizada
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Ocurrió un error al actualizar los datos del usuario.');
+            }
+        });
+
+        getPets();
+    </script>
+</body>
+</html>
