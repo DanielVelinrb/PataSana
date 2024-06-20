@@ -9,7 +9,7 @@ document.getElementById('registrationForm').addEventListener('submit', function(
 
     const nombreCompleto = `${nombre} ${apellido}`;
 
-    fetch('http://127.0.0.1:8000/usuarios/crear', {
+    fetch('http://ec2-18-117-255-119.us-east-2.compute.amazonaws.com/usuarios/crear', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

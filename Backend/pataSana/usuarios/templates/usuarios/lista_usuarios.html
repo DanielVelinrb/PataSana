@@ -89,7 +89,7 @@
 
     <script>
         // URL de la API y token de autenticación
-        const apiUrl = 'http://127.0.0.1:8000/get_users';
+        const apiUrl = 'http://ec2-18-117-255-119.us-east-2.compute.amazonaws.com/get_users';
         const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYzg4MTIzNDQtMGRlNy00Nzg3LWI4YWItNDEyOGFhZDYzM2I4IiwidXNlcl9yb2wiOiJhZG1pbiJ9.5SbtICwZlr-V6BMpAjNMkYLWZ1zSZUas_804RA-F92I'; // Reemplaza 'tu_token_aqui' con tu token válido
 
         // Función para obtener y mostrar los usuarios
@@ -165,7 +165,7 @@
             const email = document.getElementById('updateEmail').value;
 
             try {
-                const response = await fetch('http://127.0.0.1:8000/actualizar_datos', {
+                const response = await fetch('http://ec2-18-117-255-119.us-east-2.compute.amazonaws.com/actualizar_datos', {
                     method: 'PATCH',
                     headers: {
                         'Authorization': `Token ${authToken}`,

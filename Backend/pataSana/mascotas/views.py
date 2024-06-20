@@ -19,7 +19,7 @@ def registrar_mascota(request):
         nombre = data.get('nombre')
         raza = data.get('raza')
         especie = data.get('especie')
-        edad = data.get('edad')
+        edad = str(data.get('edad'))
         observaciones = data.get('observaciones')
         token = data.get('token')
         mascota_id = uuid.uuid4()
@@ -29,14 +29,14 @@ def registrar_mascota(request):
         if(duenio is None):
             return JsonResponse({'error': 'DUEÑO INEXISTENTE.'}, status=400)
 
-        duenio = duenio[0]
+        #duenio = duenio[0]
 
         try:
             payload = jwt.decode(token, 'pan', algorithms=['HS256'])
             user_rol = payload['user_rol']
 
-            if(user_rol != "admin"):
-                return JsonResponse({'error': 'USUARIO NO AUTORIZADO. SE REQUIEREN PERMISOS DE ADMINISTRADOR.'}, status=400)
+            #if(user_rol != "admin"):
+            #    return JsonResponse({'error': 'USUARIO NO AUTORIZADO. SE REQUIEREN PERMISOS DE ADMINISTRADOR.'}, status=400)
 
             if(mascotaExiste(duenio, nombre) is not None):
                 return JsonResponse({'error': 'EL USUARIO YA POSEE UNA MASCOTA CON ESTE NOMBRE.'}, status=400)

@@ -4,7 +4,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     const email = document.getElementById('inputEmail').value;
     const password = document.getElementById('inputPassword').value;
 
-    fetch('http://127.0.0.1:8000/login', {
+    fetch('http://ec2-18-117-255-119.us-east-2.compute.amazonaws.com/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -18,7 +18,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
             localStorage.setItem('token', data.token);
 
             // Obtener el rol del usuario
-            fetch('http://127.0.0.1:8000/get_info_user', {
+            fetch('http://ec2-18-117-255-119.us-east-2.compute.amazonaws.com/get_info_user', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${data.token}`,
@@ -32,7 +32,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
                 if (userData.usuario[4] === 'admin') {
                     window.location.href = '/dashboard_admin';
                 } else if (userData.usuario[4] === 'usuario') {
-                    window.location.href = '/dashboard_admin';
+                    window.location.href = '/dashboard_user';
                 }
                 
             })
