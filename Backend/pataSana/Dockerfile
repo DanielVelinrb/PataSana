@@ -10,11 +10,13 @@ COPY requirements.txt .
 # Instala las dependencias
 RUN pip install --verbose -r requirements.txt
 
-
 # Copia el contenido de tu proyecto al directorio de trabajo
 COPY . .
 
-# Realiza la recolección de archivos estáticos (si es necesario)
+# Configura el entorno para producción
+ENV DJANGO_SETTINGS_MODULE=pataSana.settings
+
+# Realiza la recolección de archivos estáticos
 RUN python manage.py collectstatic --noinput
 
 # Expone el puerto en el que Django correrá (opcional, no necesario si no se publica el puerto)
