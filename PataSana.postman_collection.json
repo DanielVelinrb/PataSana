@@ -24,7 +24,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/productos/registrar",
+							"raw": "http://ec2-18-117-255-119.us-east-2.compute.amazonaws.com/productos/registrar",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -93,7 +93,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/mascotas/borrar",
+							"raw": "http://ec2-18-117-255-119.us-east-2.compute.amazonaws.com/mascotas/borrar",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -125,7 +125,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/mascotas/actualizar",
+							"raw": "http://ec2-18-117-255-119.us-east-2.compute.amazonaws.com/mascotas/actualizar",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -229,7 +229,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/mascotas/info?nombre=pancho 2",
+							"raw": "http://ec2-18-117-255-119.us-east-2.compute.amazonaws.com/mascotas/info?nombre=pancho 2",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -272,7 +272,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/usuarios/crear",
+							"raw": "http://ec2-18-117-255-119.us-east-2.compute.amazonaws.com/usuarios/crear",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -335,7 +335,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/change_password",
+							"raw": "http://ec2-18-117-255-119.us-east-2.compute.amazonaws.com/change_password",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -366,7 +366,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/actualizar_datos",
+							"raw": "http://ec2-18-117-255-119.us-east-2.compute.amazonaws.com/actualizar_datos",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -468,7 +468,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/get_info_user",
+							"raw": "http://ec2-18-117-255-119.us-east-2.compute.amazonaws.com/get_info_user",
 							"protocol": "http",
 							"host": [
 								"127",
