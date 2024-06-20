@@ -14,6 +14,9 @@ def home(request):
 def ir_index(request):
     return render(request, 'mascotas/lista_mascotas.html')
 
+def ir_usuarios(request):
+    return render(request, 'usuarios/lista_usuarios.html')
+
 def registrar_usuario(request):
     return render(request, 'usuarios/register.html')
 

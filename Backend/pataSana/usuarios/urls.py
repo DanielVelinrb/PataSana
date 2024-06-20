@@ -11,6 +11,7 @@ urlpatterns = [
     path('get_info_user', views.obtener_info_usuario, name='obtener_info_usuario'),
     path('actualizar_datos', views.actualizar, name='actualizar'),
     path('dashboard_admin', views.ir_index, name='dashboard_admin'),
+    path('dashboard_usuarios', views.ir_usuarios, name='dashboard_usuarios'),
     path('registro', views.registrar_usuario, name='registrarme'),
     path('restablecer_contra', views.recuperar_contrasenia, name='restablecer_contra')
 ]
