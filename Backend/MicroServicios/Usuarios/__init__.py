@@ -5,6 +5,6 @@ app = Flask(__name__)
 
 
 def init_app():
-    app.register_blueprint(MascotasRoutes.app, url_prefix='/mascotas')
+    app.register_blueprint(UsersRoutes.app, url_prefix='/usuarios')
     
     return app

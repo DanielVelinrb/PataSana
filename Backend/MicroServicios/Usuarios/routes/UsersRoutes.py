@@ -1,8 +1,9 @@
 from flask import Blueprint, request, jsonify
-from database.dbConnection import postgresql_connection
-import hashlib, uuid, json, jwt
-from utils.utils import existUser, validateUser, correoValido
-import uuid
+import hashlib, json, jwt
+from utils.utils import correoValido
+from repositories.usuario_query_repository import existUser, validateUser, obtener_usuarios_db, obtener_info_usuario_db
+from repositories.usuario_command_repository import crear_usuario, cambiar_contrasenia_db, actualizar_db
+
 
 app = Blueprint('users_blueprint', __name__)
 
@@ -24,25 +25,14 @@ def crearUsuario():
     if existUser(email):
         return jsonify({'mensaje': 'ERROR. YA EXISTE UN USUARIO CON ESTE CORREO'}), 400
 
-    usuario_id = str(uuid.uuid4())
-
     if(len(password) <= 3):
         return jsonify({'error': 'Contraseña debil. La contraseña debe poseer al menos 4 caracteres.'}), 405
 
-    password = hashlib.sha256(password.encode('utf-8')).hexdigest()
-
     try:
-        connection = postgresql_connection()
-        with connection.cursor() as cursor:
-            cursor.execute(
-                """
-                INSERT INTO Usuario (ID, Nombre, Email, Password, Rol)
-                VALUES (%s, %s, %s, %s, %s)
-                """,
-                (usuario_id, nombre, email, password, "usuario",)
-            )
-        connection.commit()
-        connection.close()
+        resultado = crear_usuario(nombre, email, password)
+
+        if(resultado is None):
+            return jsonify({'ERROR': 'ERROR AL CREAR EL USUARIO'}), 500
 
         return jsonify({'message': 'Usuario creado exitosamente'}), 200
     except Exception as e:
@@ -79,22 +69,14 @@ def cambiar_contrasenia():
     if(len(password) <= 3):
         return jsonify({'error': 'Contraseña debil. La contraseña debe poseer al menos 4 caractéres.'}), 405
 
-    password = hashlib.sha256(password.encode('utf-8')).hexdigest()
-
     try:
-        connection = postgresql_connection()
-        with connection.cursor() as cursor:
-            cursor.execute(
-                """
-                UPDATE Usuario SET password = %s where email = %s
-                """,
-                (password, email)
-            )
-        connection.commit()
-        connection.close()
+        resultado = cambiar_contrasenia_db(password, email)
+        if(resultado is None):
+            return jsonify({'ERROR': 'ERROR AL ACTUALIZAR LA CONTRASEÑA'}), 500
 
         return jsonify({'message': 'CONTRASEÑA ACTUALIZADA CON ÉXITO'}), 200
     except Exception as e:
+        print(e)
         return jsonify({'error': 'ERROR AL INTENTAR CAMBIAR LA CONTRASEÑA'}), 500
     
 
@@ -113,21 +95,11 @@ def obtener_usuarios():
         if(user_rol != "admin"):
             return jsonify({'error': 'USUARIO NO AUTORIZADO. SE REQUIEREN PERMISOS DE ADMINISTRADOR.'}), 400
 
-        connection = postgresql_connection()
-        with connection.cursor() as cursor:
-            cursor.execute(
-                """
-                SELECT USUARIO.*, COUNT(MASCOTA.ID) AS mascotasNum 
-                FROM USUARIO LEFT JOIN MASCOTA 
-                ON USUARIO.ID = MASCOTA.id_dueno
-                where USUARIO.rol = 'usuario'
-                GROUP BY USUARIO.ID
-                """                    
-            )
+        resultado = obtener_usuarios_db()
+        if(resultado == 500):
+            return jsonify({'ERROR': 'ERROR AL OBTENER LOS USUARIOS'}), 500
 
-            usuarios = cursor.fetchall()
-
-        return jsonify({'usuarios': usuarios}), 200
+        return jsonify({'usuarios': resultado}), 200
     except Exception as e:
         return jsonify({'error': 'ERROR AL OBTENER LOS USUARIOS'}), 500
 
@@ -144,19 +116,9 @@ def obtener_info_usuario():
         payload = jwt.decode(token, 'pan', algorithms=['HS256'])
         user_id = payload['user_id']
 
-        connection = postgresql_connection()
-        with connection.cursor() as cursor:
-            cursor.execute(
-                """
-                SELECT * FROM USUARIO where id = %s
-                """,
-                (user_id, )                    
-            )
-
-            usuario = cursor.fetchone()
-
-            if usuario is None:
-                return jsonify({'error': "ERROR. EL USUARIO NO EXiSTE"}), 404
+        usuario = obtener_info_usuario_db(user_id)
+        if usuario is None:
+            return jsonify({'error': "ERROR. EL USUARIO NO EXiSTE"}), 404
 
         return jsonify({'usuario': usuario}), 200
     except Exception as e:
@@ -177,16 +139,10 @@ def actualizar():
         return jsonify({'error': 'ERROR. No se puede actualizar un nombre a un valor en blanco.'}), 405
 
     try:
-        connection = postgresql_connection()
-        with connection.cursor() as cursor:
-            cursor.execute(
-                """
-                UPDATE Usuario SET email = %s, nombre = %s where id = %s
-                """,
-                (email, nombre, id_usuario, )
-            )
-        connection.commit()
-        connection.close()
+        resultado = actualizar_db(id_usuario, nombre, email)
+
+        if(resultado is None):
+            return jsonify({'ERROR': 'ERROR AL ACTUALIZAR LOS DATOS DEL USUARIO'}), 500
 
         return jsonify({'message': 'DATOS DEL USUARIO ACTUALIZADOS CON EXITO'}), 200
     except Exception as e:
