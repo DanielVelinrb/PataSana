@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  usuarios:
+    build:
+      context: .
+      dockerfile: Usuarios_Dockerfile
+    container_name: usuarios
+    ports:
+      - "8081:8081"
+    environment:
+      - FLASK_ENV=production
+
+  mascotas:
+    build:
+      context: .
+      dockerfile: Mascotas_Dockerfile
+    container_name: mascotas
+    ports:
+      - "8082:8082"
+    environment:
+      - FLASK_ENV=production
+
