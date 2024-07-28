@@ -1,7 +1,8 @@
 from flask import Blueprint, request, jsonify
 from database.dbConnection import postgresql_connection
 from utils.utils import getUserID, mascotaExiste
-from repositories.mascotas_command_repository import registrar_mascota_db, borrar_registro_mascota
+from repositories.mascotas_command_repository import registrar_mascota_db, borrar_registro_mascota, actualizar_registro_mascota
+from repositories.mascotas_query_repository import obtener_total_mascotas, obtener_mascotas_usuario, obtener_info_mascota_db, mascotas_por_usuario
 import hashlib, uuid, json, jwt
 
 app = Blueprint('mascotas_blueprint', __name__)
@@ -24,8 +25,6 @@ def registrar_mascota():
 
     if(duenio is None):
         return jsonify({'error': 'DUEÑO INEXISTENTE.'}), 400
-
-    duenio = duenio[0]
 
     try:
         payload = jwt.decode(token, 'pan', algorithms=['HS256'])
@@ -101,28 +100,19 @@ def obtener_mascotas():
 
         #if(user_rol != "usuario"):
         #   return JsonResponse({'error': 'ERROR. ESTE TIPO DE USUARIO NO PUEDE REALIZAR ESTA ACCION'}, status=400)
+        mascotas = [] 
+        if(user_rol == "usuario"):
+            mascotas =  obtener_total_mascotas()
 
-        connection = postgresql_connection()
-        with connection.cursor() as cursor:
-            if(user_rol == "usuario"):
-                cursor.execute(
-                    """
-                    SELECT * FROM MASCOTA where id_dueno = %s
-                    """ ,
-                    (user_id, )               
-                )
-            if(user_rol == "admin"):
-                cursor.execute(
-                    """
-                    SELECT * FROM MASCOTA 
-                    """                
-                )
-            mascotas = cursor.fetchall()
+        if(user_rol == "admin"):
+            mascotas = obtener_mascotas_usuario(user_id)
 
-            connection.commit()
-            connection.close()
+        if(mascotas == 500):
+            return jsonify({'error': 'ERROR AL OBTENER LAS MASCOTAS'}), 500
+
         return jsonify({'mascotas': mascotas}), 200
     except Exception as e:
+        print(e)
         return jsonify({'error': 'ERROR AL OBTENER LAS MASCOTAS'}), 500
 
 
@@ -143,26 +133,18 @@ def obtener_info_mascota():
         if nombre == '':
             return jsonify({'error': "FALTAN PARAMETROS EN LA CONSULTA"}), 200
 
-        connection = postgresql_connection()
-        with connection.cursor() as cursor:
-            cursor.execute(
-                """
-                SELECT * FROM MASCOTA where id_dueno = %s and nombre = %s
-                """ ,
-                (user_id, nombre, )               
-            )
-                
-            mascota = cursor.fetchone()
+        mascota = obtener_info_mascota_db(user_id, nombre)
 
-            connection.commit()
-            connection.close()
+        if mascota == 500:
+            return jsonify({'error': "ERROR AL OBTENER EL REGISTRO"}), 200
 
-            if mascota is None:
-                return jsonify({'error': "ERROR. EL USUARIO NO POSEE NINGUNA MASCOTA CON ESE NOMBRE"}), 200
+        if mascota == 400:
+            return jsonify({'error': "ERROR. EL USUARIO NO POSEE NINGUNA MASCOTA CON ESE NOMBRE"}), 200
 
         return jsonify({'mascota': mascota}), 200
     except Exception as e:
-        return jsonify({'error': 'ERROR AL OBTENER LAS MASCOTAS'}), 500
+        print(e)
+        return jsonify({'error': 'ERROR AL OBTENER EL REGISTRO'}), 500
 
 
 @app.route('/actualizar', methods=['PATCH'])
@@ -182,20 +164,37 @@ def actualizar():
         return jsonify({'error': 'LA EDAD INGRESADA DEBE SER UN NÚMERO ENTERO POSITIVO'}), 405
         
     try:
-        connection = postgresql_connection()
-        with connection.cursor() as cursor:
-            cursor.execute(
-                """
-                UPDATE MASCOTA SET 
-                nombre = %s, raza = %s, especie = %s, edad = %s, observaciones = %s
-                where id = %s
-                """,
-                (nombre, raza, especie, edad, observaciones, id_mascota, )
-            )
 
-            connection.commit()
-            connection.close()
-            
+        resultado = actualizar_registro_mascota(nombre, raza, especie, edad, observaciones, id_mascota)
+
+        if resultado is None:
+            return jsonify({'message': 'ERROR AL ACTUALIZAR LA INFORMACION'}), 200
+
         return jsonify({'message': 'DATOS DE LA MASCOTA ACTUALIZADOS CON EXITO'}), 200
     except Exception as e:
         return jsonify({'error': 'ERROR AL ACTUALIZAR LA INFORMACION'}), 500
+
+
+
+@app.route('/conteo', methods=['GET'])
+def conteo_mascotas():
+    token = request.headers.get('Authorization')
+    
+    if not token:
+        return jsonify({'error': 'ERROR. TOKEN DE IDENTIFICACION REQUERIDO'}), 400
+
+    try:
+        token = token.split(' ')[1]
+        payload = jwt.decode(token, 'pan', algorithms=['HS256'])
+        user_rol = payload['user_rol']
+        user_id = payload['user_id']
+
+        conteo = mascotas_por_usuario()
+
+        if conteo == 500:
+            return jsonify({'error': "ERROR AL OBTENER EL CONTEO"}), 200
+
+        return jsonify({'resultado': conteo}), 200
+    except Exception as e:
+        print(e)
+        return jsonify({'error': 'ERROR AL OBTENER EL CONTEO'}), 500

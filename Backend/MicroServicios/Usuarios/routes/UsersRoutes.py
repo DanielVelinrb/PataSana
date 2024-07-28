@@ -95,7 +95,7 @@ def obtener_usuarios():
         if(user_rol != "admin"):
             return jsonify({'error': 'USUARIO NO AUTORIZADO. SE REQUIEREN PERMISOS DE ADMINISTRADOR.'}), 400
 
-        resultado = obtener_usuarios_db()
+        resultado = obtener_usuarios_db(token)
         if(resultado == 500):
             return jsonify({'ERROR': 'ERROR AL OBTENER LOS USUARIOS'}), 500
 
@@ -147,3 +147,22 @@ def actualizar():
         return jsonify({'message': 'DATOS DEL USUARIO ACTUALIZADOS CON EXITO'}), 200
     except Exception as e:
         return jsonify({'error': 'ERROR AL ACTUALIZAR LA INFORMACION'}), 500
+
+
+@app.route('/exist', methods=['GET'])
+def existe():
+    try:
+        email = request.args.get('email', '')
+
+        user_id = existUser(email)
+
+        if user_id is None:
+            return jsonify({'error': 'ERROR. CORREO NO VÁLIDO'}), 405
+
+        user_id = user_id[0]
+
+        return jsonify({'id': user_id}), 200
+
+    except Exception as e:
+        print(e)
+        return jsonify({'error': 'ERROR AL OBTENER EL ID'}), 405

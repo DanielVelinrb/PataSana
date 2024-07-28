@@ -21,8 +21,7 @@ CREATE TABLE Mascota (
     Especie TEXT NOT NULL,
     Edad INTEGER NOT NULL,
     Observaciones TEXT,
-    ID_Dueno TEXT NOT NULL,
-    FOREIGN KEY (ID_Dueno) REFERENCES Usuario(ID)
+    ID_Dueno TEXT NOT NULL
 );
 
 -- Crear la tabla Producto

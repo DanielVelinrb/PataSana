@@ -1,23 +1,19 @@
 from database.dbConnection import postgresql_connection
 import json
-import uuid
+import uuid, requests
+
 
 def getUserID(email):
     try:
+        url = 'http://127.0.0.1:8081/usuarios/exist'
+        params = {'email': email}
+        response = requests.get(url, params=params)
 
-        connection = postgresql_connection()
-        with connection.cursor() as cursor:
+        if response.status_code == 200:
+            mascotas = response.json()
+            return mascotas.get('id')
 
-            cursor.execute(
-                """
-                Select ID FROM Usuario where email = %s
-                """,
-                (email,)
-            )
-
-            result = cursor.fetchone()
-            return result
-
+        return None
     except Exception as e:
         print(e)
 

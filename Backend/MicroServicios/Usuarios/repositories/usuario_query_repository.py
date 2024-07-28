@@ -1,4 +1,5 @@
 from database.dbConnection import postgresql_connection
+from utils.mascotas_cliente import mascotas_por_usuario
 
 
 def existUser(email):
@@ -39,25 +40,30 @@ def validateUser(email, password):
         return
 
 
-def obtener_usuarios_db():
+def obtener_usuarios_db(token):
     try:
         connection = postgresql_connection()
         with connection.cursor() as cursor:
             cursor.execute(
                 """
-                SELECT USUARIO.*, COUNT(MASCOTA.ID) AS mascotasNum 
-                FROM USUARIO LEFT JOIN MASCOTA 
-                ON USUARIO.ID = MASCOTA.id_dueno
-                where USUARIO.rol = 'usuario'
-                GROUP BY USUARIO.ID
-                """                    
+                SELECT USUARIO.ID, USUARIO.NOMBRE, USUARIO.EMAIL 
+                FROM USUARIO
+                WHERE USUARIO.rol = 'usuario'
+                """
             )
-
             usuarios = cursor.fetchall()
-            return usuarios
-    except Exception as e:
-        return 500
+            mascotas_num = mascotas_por_usuario(token)
+            usuarios_con_mascotas = []
+            for usuario in usuarios:
+                id_usuario = usuario[0]    
+                usuarios_con_mascotas.append((usuario[0], usuario[1], usuario[2], 
+                                                0 if id_usuario not in mascotas_num else mascotas_num[id_usuario]))
 
+            return usuarios_con_mascotas
+
+    except Exception as e:
+        print(f"Error al obtener usuarios: {e}")
+        return 500
 
 def obtener_info_usuario_db(user_id):
     

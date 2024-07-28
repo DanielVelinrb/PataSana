@@ -36,3 +36,24 @@ def borrar_registro_mascota(duenio, nombre):
     except Exception as e:
         print(e)
         return None
+
+
+def actualizar_registro_mascota(nombre, raza, especie, edad, observaciones, id_mascota):
+    try:
+        connection = postgresql_connection()
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                UPDATE MASCOTA SET 
+                nombre = %s, raza = %s, especie = %s, edad = %s, observaciones = %s
+                where id = %s
+                """,
+                (nombre, raza, especie, edad, observaciones, id_mascota, )
+            )
+            
+        connection.commit()
+        connection.close()
+        return 200
+    except Exception as e:
+        print(e)
+        return None
