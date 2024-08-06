@@ -58,7 +58,7 @@ def borrar_registro():
     duenio = getUserID(duenio)
 
     if(duenio is None):
-        return JsonResponse({'error': 'DUEÑO INEXISTENTE.'}, status=400)
+        return jsonify({'error': 'DUEÑO INEXISTENTE.'}), 400
 
     duenio = duenio[0]
 

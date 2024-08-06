@@ -20,4 +20,14 @@ services:
       - "8082:8082"
     environment:
       - FLASK_ENV=production
+  
+  visitas:
+    build:
+      context: .
+      dockerfile: Visitas_Dockerfile
+    container_name: visitas
+    ports:
+      - "8083:8083"
+    environment:
+      - FLASK_ENV=production
 
