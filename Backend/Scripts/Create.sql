@@ -37,12 +37,12 @@ CREATE TABLE Producto (
 CREATE TABLE Visitas (
     ID TEXT PRIMARY KEY,
     Fecha DATE NOT NULL,
-    ID_Mascota TEXT NOT NULL,
+    duenio TEXT NOT NULL,
     Observaciones TEXT,
     NombreMascota TEXT NOT NULL,
     MotivoVisita TEXT NOT NULL,
-    FOREIGN KEY (ID_Mascota) REFERENCES Mascota(ID)
 );
+
 
 -- Crear la tabla Visitas_Productos
 CREATE TABLE Visitas_Productos (
