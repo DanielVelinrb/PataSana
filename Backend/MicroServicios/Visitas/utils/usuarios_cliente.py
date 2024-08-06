@@ -4,7 +4,7 @@ import json, requests
 
 def existUser(email):
     try:
-        url = 'http://127.0.0.1:8081/usuarios/exist'
+        url = 'http://172.20.0.2:8081/usuarios/exist'
         params = {'email': email}
         response = requests.get(url, params=params)
 

@@ -10,6 +10,9 @@ services:
       - "8081:8081"
     environment:
       - FLASK_ENV=production
+    networks:
+      custom_network:
+        ipv4_address: 172.20.0.2
 
   mascotas:
     build:
@@ -20,6 +23,9 @@ services:
       - "8082:8082"
     environment:
       - FLASK_ENV=production
+    networks:
+      custom_network:
+        ipv4_address: 172.20.0.3
   
   visitas:
     build:
@@ -30,4 +36,13 @@ services:
       - "8083:8083"
     environment:
       - FLASK_ENV=production
+    networks:
+      custom_network:
+        ipv4_address: 172.20.0.4
 
+networks:
+  custom_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
