@@ -53,7 +53,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"rigoberta@example.com\",\r\n    \"nombre\": \"pancho 2\",\r\n    \"raza\": \"golden\",\r\n    \"especie\": \"perro\",\r\n    \"edad\" : 3,\r\n    \"observaciones\": \"suavecito\",\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYzg4MTIzNDQtMGRlNy00Nzg3LWI4YWItNDEyOGFhZDYzM2I4IiwidXNlcl9yb2wiOiJhZG1pbiJ9.5SbtICwZlr-V6BMpAjNMkYLWZ1zSZUas_804RA-F92I\"\r\n}",
+							"raw": "{\r\n    \"email\" : \"rigo1@gmail.com\",\r\n    \"nombre\": \"pancho 8\",\r\n    \"raza\": \"golden\",\r\n    \"especie\": \"perro\",\r\n    \"edad\" : 3,\r\n    \"observaciones\": \"suavecito\",\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYzg4MTIzNDQtMGRlNy00Nzg3LWI4YWItNDEyOGFhZDYzM2I4IiwidXNlcl9yb2wiOiJhZG1pbiJ9.5SbtICwZlr-V6BMpAjNMkYLWZ1zSZUas_804RA-F92I\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -61,15 +61,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://ec2-18-117-255-119.us-east-2.compute.amazonaws.com/mascotas/registrar",
+							"raw": "http://127.0.0.1:8082/mascotas/registrar",
 							"protocol": "http",
 							"host": [
-								"ec2-18-117-255-119",
-								"us-east-2",
-								"compute",
-								"amazonaws",
-								"com"
+								"127",
+								"0",
+								"0",
+								"1"
 							],
+							"port": "8082",
 							"path": [
 								"mascotas",
 								"registrar"
@@ -85,7 +85,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"rigoberta@example.com\",\r\n    \"nombre\": \"pancho\",\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYzg4MTIzNDQtMGRlNy00Nzg3LWI4YWItNDEyOGFhZDYzM2I4IiwidXNlcl9yb2wiOiJhZG1pbiJ9.5SbtICwZlr-V6BMpAjNMkYLWZ1zSZUas_804RA-F92I\"\r\n}",
+							"raw": "{\r\n    \"email\": \"rigorigo@gmail.com\",\r\n    \"nombre\": \"pancho 3\",\r\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYzg4MTIzNDQtMGRlNy00Nzg3LWI4YWItNDEyOGFhZDYzM2I4IiwidXNlcl9yb2wiOiJhZG1pbiJ9.5SbtICwZlr-V6BMpAjNMkYLWZ1zSZUas_804RA-F92I\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -93,7 +93,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/mascotas/borrar",
+							"raw": "http://127.0.0.1:8082/mascotas/borrar",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -101,7 +101,7 @@
 								"0",
 								"1"
 							],
-							"port": "8000",
+							"port": "8082",
 							"path": [
 								"mascotas",
 								"borrar"
@@ -111,13 +111,13 @@
 					"response": []
 				},
 				{
-					"name": "Actualizar Datos Copy",
+					"name": "Actualizar Datos",
 					"request": {
 						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\" : \"c0f6e03e-34b3-4da9-a775-db4b95e88fac\",\r\n    \"nombre\": \"Jackson\"\r\n}",
+							"raw": "{\r\n    \"id\" : \"c0f6e03e-34b3-4da9-a775-db4b95e88fac\",\r\n    \"nombre\": \"Jackson\", \r\n    \"raza\" : \"Puddle\",\r\n    \"especie\" : \"de la montaña\",\r\n    \"edad\" : \"3\", \r\n    \"observaciones\" : \"bonito\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -125,7 +125,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/mascotas/actualizar",
+							"raw": "http://127.0.0.1:8082/mascotas/actualizar",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -133,7 +133,7 @@
 								"0",
 								"1"
 							],
-							"port": "8000",
+							"port": "8082",
 							"path": [
 								"mascotas",
 								"actualizar"
@@ -177,15 +177,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://ec2-18-117-255-119.us-east-2.compute.amazonaws.com/mascotas/listar",
+							"raw": "http://127.0.0.1:8082/mascotas/listar",
 							"protocol": "http",
 							"host": [
-								"ec2-18-117-255-119",
-								"us-east-2",
-								"compute",
-								"amazonaws",
-								"com"
+								"127",
+								"0",
+								"0",
+								"1"
 							],
+							"port": "8082",
 							"path": [
 								"mascotas",
 								"listar"
@@ -229,7 +229,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/mascotas/info?nombre=pancho 2",
+							"raw": "http://127.0.0.1:8082/mascotas/info?nombre=Jackson",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -237,7 +237,7 @@
 								"0",
 								"1"
 							],
-							"port": "8000",
+							"port": "8082",
 							"path": [
 								"mascotas",
 								"info"
@@ -245,8 +245,41 @@
 							"query": [
 								{
 									"key": "nombre",
-									"value": "pancho 2"
+									"value": "Jackson"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Conteo de mascotas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYzg4MTIzNDQtMGRlNy00Nzg3LWI4YWItNDEyOGFhZDYzM2I4IiwidXNlcl9yb2wiOiJhZG1pbiJ9.5SbtICwZlr-V6BMpAjNMkYLWZ1zSZUas_804RA-F92I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8082/mascotas/conteo",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8082",
+							"path": [
+								"mascotas",
+								"conteo"
 							]
 						}
 					},
@@ -264,7 +297,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"rigoberta menchu\",\r\n    \"email\": \"rigoberta2@example.com\",\r\n    \"password\": \"pan\"\r\n}\r\n",
+							"raw": "{\r\n    \"nombre\": \"RIGO RIGO\",\r\n    \"email\": \"rigo23@gmail.com\",\r\n    \"password\": \"rigo\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -272,7 +305,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/usuarios/crear",
+							"raw": "http://127.0.0.1:8081/usuarios/crear",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -280,7 +313,7 @@
 								"0",
 								"1"
 							],
-							"port": "8000",
+							"port": "8081",
 							"path": [
 								"usuarios",
 								"crear"
@@ -296,7 +329,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"rigoberta@example.com\",\r\n    \"password\": \"pan\"\r\n}",
+							"raw": "{\r\n    \"email\": \"dios@hotmail.com\",\r\n    \"password\": \"dios\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -304,16 +337,17 @@
 							}
 						},
 						"url": {
-							"raw": "http://ec2-18-117-255-119.us-east-2.compute.amazonaws.com/login",
+							"raw": "http://127.0.0.1:8081/usuarios/login",
 							"protocol": "http",
 							"host": [
-								"ec2-18-117-255-119",
-								"us-east-2",
-								"compute",
-								"amazonaws",
-								"com"
+								"127",
+								"0",
+								"0",
+								"1"
 							],
+							"port": "8081",
 							"path": [
+								"usuarios",
 								"login"
 							]
 						}
@@ -327,7 +361,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"dios@example.com\",\r\n    \"password\": \"dios\"\r\n}",
+							"raw": "{\r\n    \"email\": \"rigo2@gmail.com\",\r\n    \"password\": \"rigo\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -335,7 +369,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/change_password",
+							"raw": "http://127.0.0.1:8081/usuarios/change_password",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -343,8 +377,9 @@
 								"0",
 								"1"
 							],
-							"port": "8000",
+							"port": "8081",
 							"path": [
+								"usuarios",
 								"change_password"
 							]
 						}
@@ -358,7 +393,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\" : \"ba267496-0c07-4dc4-8573-abf9018dfc4e\",\r\n    \"email\": \"rigoberta2@example.com\",\r\n    \"nombre\": \"Rigoberta Menchu\"\r\n}",
+							"raw": "{\r\n    \"id\" : \"d8c17f8a-9f74-4fad-8afc-0b4598e8330a\",\r\n    \"email\": \"rigo76@gmail.com\",\r\n    \"nombre\": \"Rigo Rigo PRUEBA\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -366,7 +401,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/actualizar_datos",
+							"raw": "http://127.0.0.1:8081/usuarios/actualizar_datos",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -374,8 +409,9 @@
 								"0",
 								"1"
 							],
-							"port": "8000",
+							"port": "8081",
 							"path": [
+								"usuarios",
 								"actualizar_datos"
 							]
 						}
@@ -417,16 +453,17 @@
 							}
 						},
 						"url": {
-							"raw": "http://ec2-18-117-255-119.us-east-2.compute.amazonaws.com/get_users",
+							"raw": "http://127.0.0.1:8081/usuarios/get_users",
 							"protocol": "http",
 							"host": [
-								"ec2-18-117-255-119",
-								"us-east-2",
-								"compute",
-								"amazonaws",
-								"com"
+								"127",
+								"0",
+								"0",
+								"1"
 							],
+							"port": "8081",
 							"path": [
+								"usuarios",
 								"get_users"
 							]
 						}
@@ -444,7 +481,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNGM4MWRkZDYtMTU4NC00NDI1LTk3NWItNDg4OGZiNjdiNzc1IiwidXNlcl9yb2wiOiJ1c3VhcmlvIn0.XnlMCQCqM-TijUNOgqN_JO7qj7Z3oe57AT8DaO6a2AM",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYzg4MTIzNDQtMGRlNy00Nzg3LWI4YWItNDEyOGFhZDYzM2I4IiwidXNlcl9yb2wiOiJhZG1pbiJ9.5SbtICwZlr-V6BMpAjNMkYLWZ1zSZUas_804RA-F92I",
 									"type": "string"
 								}
 							]
@@ -468,7 +505,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/get_info_user",
+							"raw": "http://127.0.0.1:8081/usuarios/get_info_user",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -476,9 +513,90 @@
 								"0",
 								"1"
 							],
-							"port": "8000",
+							"port": "8081",
 							"path": [
+								"usuarios",
 								"get_info_user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Citas",
+			"item": [
+				{
+					"name": "Registrar Visita",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYzg4MTIzNDQtMGRlNy00Nzg3LWI4YWItNDEyOGFhZDYzM2I4IiwidXNlcl9yb2wiOiJhZG1pbiJ9.5SbtICwZlr-V6BMpAjNMkYLWZ1zSZUas_804RA-F92I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fecha\" : \"29/07/2024\",\r\n    \"duenio\": \"rigo1@gmail.com\",\r\n    \"observaciones\": \"Nada\",\r\n    \"nombre_mascota\": \"pancho 7\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8083/visitas/registrar",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8083",
+							"path": [
+								"visitas",
+								"registrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Visitas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYzg4MTIzNDQtMGRlNy00Nzg3LWI4YWItNDEyOGFhZDYzM2I4IiwidXNlcl9yb2wiOiJhZG1pbiJ9.5SbtICwZlr-V6BMpAjNMkYLWZ1zSZUas_804RA-F92I",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8083/visitas/listar",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8083",
+							"path": [
+								"visitas",
+								"listar"
 							]
 						}
 					},
