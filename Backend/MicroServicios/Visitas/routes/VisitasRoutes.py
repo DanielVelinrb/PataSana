@@ -4,13 +4,15 @@ from repositories.visita_command_repository import registrar_visita
 from repositories.visita_query_repository import listar_visitas
 from datetime import datetime
 from utils.usuarios_cliente import existUser
-
+from logger import get_logger
+logger = get_logger(__name__)
 
 app = Blueprint('users_blueprint', __name__)
 
 
 @app.route('/registrar', methods=['POST'])
 def crearVisita():
+    logger.info('Creacion de visita iniciada')
     data = request.json 
     fecha = data.get('fecha')
     duenio = data.get('duenio')
@@ -40,17 +42,20 @@ def crearVisita():
         if(resultado is None):
             return jsonify({'ERROR': 'ERROR AL REGISTRAR LA VISTA MÉDICA'}), 500
 
+        logger.info('Creacion de visita finalizada')
         return jsonify({'message': 'Visita registrada con éxito'}), 200
     except ValueError as e:
-        print(e)
+        logger.error('Fecha ingresada invalida')
+        logger.error(e)
         return jsonify({'FECHA INVALIDA': fecha}), 500
     except Exception as e:
-         print(e)
+         logger.error(e)
          return jsonify({'error': str(e)}), 500
 
 
 @app.route('/listar', methods=['GET'])
 def listar():
+    logger.info('Listado de visitas iniciado')
     token = request.headers.get('Authorization')
     
     if not token:
@@ -67,7 +72,8 @@ def listar():
         if(resultado is None):
             return jsonify({'ERROR': 'ERROR AL LISTAR LAS VISITAS'}), 500
 
+        logger.info('Listado de visitas finalizado')
         return jsonify({'visitas': resultado}), 200
     except Exception as e:
-         print(e)
+         logger.error(e)
          return jsonify({'error': str(e)}), 500

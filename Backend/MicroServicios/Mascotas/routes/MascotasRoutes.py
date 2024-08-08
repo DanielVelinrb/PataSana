@@ -4,11 +4,15 @@ from utils.utils import getUserID, mascotaExiste
 from repositories.mascotas_command_repository import registrar_mascota_db, borrar_registro_mascota, actualizar_registro_mascota
 from repositories.mascotas_query_repository import obtener_total_mascotas, obtener_mascotas_usuario, obtener_info_mascota_db, mascotas_por_usuario
 import hashlib, uuid, json, jwt
+from logger import get_logger
+logger = get_logger(__name__)
+
 
 app = Blueprint('mascotas_blueprint', __name__)
 
 @app.route('/registrar', methods=['POST'])
 def registrar_mascota():
+    logger.info('Registro de mascota iniciado')
     data = request.json
     email = data.get('email')
     nombre = data.get('nombre')
@@ -41,15 +45,19 @@ def registrar_mascota():
 
         if(resultado is None):
             return jsonify({'error': 'ERROR AL TRATAR DE REGISTRAR LA MASCOTA.'}), 500
+        logger.info('Registro de mascota finalizado')
         return jsonify({'message': 'Mascota creada exitosamente'}), 200
     except jwt.ExpiredSignatureError:
+        logger.error('ERROR AL TRATAR DE REGISTRAR LA MASCOTA')
         return jsonify({'error': 'ERROR AL TRATAR DE REGISTRAR LA MASCOTA.'}), 500
     except jwt.DecodeError:
+        logger.error('ERROR AL TRATAR DE REGISTRAR LA MASCOTA')
         return jsonify({'error': 'ERROR AL TRATAR DE REGISTRAR LA MASCOTA.'}), 500   
 
 
 @app.route('/borrar', methods=['DELETE'])
 def borrar_registro():
+    logger.info('Eliminacion de registro')
     data = request.json
     duenio = data.get('email')
     nombre = data.get('nombre')
@@ -78,15 +86,19 @@ def borrar_registro():
         if(resultado is None):
             return jsonify({'error': 'ERROR AL TRATAR DE REGISTRAR LA MASCOTA.'}), 500
 
+        logger.info('Fin eliminacion de registro')
         return jsonify({'message': 'Registro eliminado exitosamente'}), 200
     except jwt.ExpiredSignatureError:
+        logger.error('ERROR AL TRATAR DE ELIMINAR EL REGISTRO DE LA MASCOTA')
         jsonify({'error': 'ERROR AL TRATAR DE ELIMINAR EL REGISTRO DE LA MASCOTA.'}), 500
     except jwt.DecodeError:
+        logger.error('ERROR AL TRATAR DE ELIMINAR EL REGISTRO DE LA MASCOTA')
         jsonify({'error': 'ERROR AL TRATAR DE ELIMINAR EL REGISTRO DE LA MASCOTA.'}), 500
 
 
 @app.route('/listar', methods=['GET'])
 def obtener_mascotas():
+    logger.info('Lectura de mascotas iniciada')
     token = request.headers.get('Authorization')
         
     if not token:
@@ -110,14 +122,16 @@ def obtener_mascotas():
         if(mascotas == 500):
             return jsonify({'error': 'ERROR AL OBTENER LAS MASCOTAS'}), 500
 
+        logger.info('Lectura de mascotas finalizada')
         return jsonify({'mascotas': mascotas}), 200
     except Exception as e:
-        print(e)
+        logger.error(e)
         return jsonify({'error': 'ERROR AL OBTENER LAS MASCOTAS'}), 500
 
 
 @app.route('/info', methods=['GET'])
 def obtener_info_mascota():
+    logger.info('Lectura de informacion de mascota iniciada')
     token = request.headers.get('Authorization')
     
     if not token:
@@ -141,14 +155,16 @@ def obtener_info_mascota():
         if mascota == 400:
             return jsonify({'error': "ERROR. EL USUARIO NO POSEE NINGUNA MASCOTA CON ESE NOMBRE"}), 200
 
+        logger.info(mascota)
         return jsonify({'mascota': mascota}), 200
     except Exception as e:
-        print(e)
+        logger.error(e)
         return jsonify({'error': 'ERROR AL OBTENER EL REGISTRO'}), 500
 
 
 @app.route('/actualizar', methods=['PATCH'])
 def actualizar():
+    logger.info('Actualizacion datos de mascota iniciada')
     data = request.json
     id_mascota = data.get('id')
     nombre = data.get('nombre')
@@ -170,14 +186,17 @@ def actualizar():
         if resultado is None:
             return jsonify({'message': 'ERROR AL ACTUALIZAR LA INFORMACION'}), 200
 
+        logger.info('Actualizacion finalizada')
         return jsonify({'message': 'DATOS DE LA MASCOTA ACTUALIZADOS CON EXITO'}), 200
     except Exception as e:
+        logger.error(e)
         return jsonify({'error': 'ERROR AL ACTUALIZAR LA INFORMACION'}), 500
 
 
 
 @app.route('/conteo', methods=['GET'])
 def conteo_mascotas():
+    logger.info('Conteo de mascotas iniciado')
     token = request.headers.get('Authorization')
     
     if not token:
@@ -194,7 +213,8 @@ def conteo_mascotas():
         if conteo == 500:
             return jsonify({'error': "ERROR AL OBTENER EL CONTEO"}), 200
 
+        logger.info('Conteo de mascotas finalizado')
         return jsonify({'resultado': conteo}), 200
     except Exception as e:
-        print(e)
+        logger.error(e)
         return jsonify({'error': 'ERROR AL OBTENER EL CONTEO'}), 500

@@ -1,7 +1,10 @@
 from database.dbConnection import postgresql_connection
+from logger import get_logger
+logger = get_logger(__name__)
 
 def registrar_mascota_db(mascota_id, nombre, raza, especie, edad, observaciones, duenio):
     try:
+        logger.info('Registro de mascotas iniciado')
         connection = postgresql_connection()
         with connection.cursor() as cursor:
             cursor.execute(
@@ -14,13 +17,15 @@ def registrar_mascota_db(mascota_id, nombre, raza, especie, edad, observaciones,
                 
         connection.commit()
         connection.close()
+        logger.info('Registro de mascotas finalizado')
         return 200
     except Exception as e:
-        print(e)
+        logger.error(e)
         return None
 
 def borrar_registro_mascota(duenio, nombre):
     try:
+        logger.info('Eliminacion registro de mascota iniciado')
         connection = postgresql_connection()
         with connection.cursor() as cursor:
             cursor.execute(
@@ -32,14 +37,16 @@ def borrar_registro_mascota(duenio, nombre):
             
         connection.commit()
         connection.close()
+        logger.info('Eliminacion registro de mascota finalizado')
         return 200
     except Exception as e:
-        print(e)
+        logger.error(e)
         return None
 
 
 def actualizar_registro_mascota(nombre, raza, especie, edad, observaciones, id_mascota):
     try:
+        logger.info('Actualizacion registro mascota iniciado')
         connection = postgresql_connection()
         with connection.cursor() as cursor:
             cursor.execute(
@@ -53,7 +60,8 @@ def actualizar_registro_mascota(nombre, raza, especie, edad, observaciones, id_m
             
         connection.commit()
         connection.close()
+        logger.info('Actualizacion registro mascota finalizado')
         return 200
     except Exception as e:
-        print(e)
+        logger.error(e)
         return None
